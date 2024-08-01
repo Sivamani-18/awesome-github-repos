@@ -141,7 +141,7 @@ const Home = () => {
             >
               <CardContent style={{ flexGrow: 1 }}>
                 <Typography variant='h6'>
-                  {truncateDescription(repo.full_name || '', 35)}
+                  {truncateDescription(repo.full_name || '', 30)}
                 </Typography>
                 <Typography>
                   {truncateDescription(repo.description || '', 75)}
