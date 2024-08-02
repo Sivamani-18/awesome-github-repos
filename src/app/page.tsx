@@ -59,12 +59,6 @@ const Home = () => {
     { value: 'Vue', label: 'Vue' },
   ]);
   const [defaultTopics] = useState([
-    'react',
-    'angular',
-    'vue',
-    'svelte',
-    'javascript',
-    'typescript',
     'nodejs',
     'frontend',
     'backend',
