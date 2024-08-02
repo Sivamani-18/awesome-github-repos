@@ -187,7 +187,7 @@ const Home = () => {
             onChange={handleFilter}
             isClearable
             value={language}
-            styles={{ menu: (base) => ({ ...base, maxHeight: 200 }) }}
+            styles={{ menu: (base) => ({ ...base }) }}
           />
         </Grid>
       </Grid>
@@ -202,7 +202,7 @@ const Home = () => {
             onChange={handleSortStars}
             isClearable
             value={sortStars}
-            styles={{ menu: (base) => ({ ...base, maxHeight: 200 }) }}
+            styles={{ menu: (base) => ({ ...base }) }}
           />
         </Grid>
         <Grid item xs={6}>
