@@ -13,7 +13,6 @@ jobs:
       NODE_ENV: production
       GITHUB_TOKEN: ${{ secrets.ACTIONS_DEPLOY_KEY }}
 
-
     steps:
       - uses: actions/checkout@v2
 
@@ -23,7 +22,7 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci --also=dev
 
       - name: Build project
         run: npm run build
