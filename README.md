@@ -2,6 +2,8 @@
 
 This project is a web application built with Next.js, React, and Material-UI that allows users to search and browse public GitHub repositories. The application supports both authenticated and unauthenticated requests to the GitHub API, improving rate limits when a GitHub token is provided.
 
+Demo [Click here](https://sivamani-18.github.io/awesome-github-repos/)
+
 ## Features
 
 - Search for public GitHub repositories by name
