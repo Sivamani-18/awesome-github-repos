@@ -19,7 +19,7 @@ import {
 } from '@mui/material';
 
 type Repository = {
-  topics: ReactNode;
+  topics: string[];
   id: number;
   full_name: string;
   html_url: string;
@@ -46,8 +46,6 @@ const Home = () => {
     'Vue',
   ]);
 
-  console.log('repositories', repositories);
-
   const fetchRepositories = async (
     page: number,
     query: string,
@@ -56,13 +54,28 @@ const Home = () => {
     setLoading(true);
     setError(null);
     try {
-      const { data } = await axios.get('/api/repositories', {
-        params: { page, query, language },
-      });
+      const headers: { [key: string]: string } = {
+        Accept: 'application/vnd.github.v3+json',
+      };
+
+      const githubToken = process.env.GITHUB_TOKEN;
+
+      if (githubToken) {
+        headers['Authorization'] = `token ${githubToken}`;
+      }
+
+      const searchQuery = query ? `+${query} in:name` : '';
+      const languageQuery = language ? `+language:${language}` : '';
+      const githubApiUrl = `https://api.github.com/search/repositories?q=stars:>1${searchQuery}${languageQuery}&sort=stars&order=desc&per_page=15&page=${
+        page + 1
+      }`;
+
+      const { data } = await axios.get(githubApiUrl, { headers });
+
       if (page === 0) {
-        setRepositories(data);
+        setRepositories(data.items);
       } else {
-        setRepositories((prevRepos) => [...prevRepos, ...data]);
+        setRepositories((prevRepos) => [...prevRepos, ...data.items]);
       }
     } catch (err) {
       setError('Failed to fetch repositories. Please try again later.');
@@ -163,19 +176,15 @@ const Home = () => {
                   spacing={1}
                   gap={1}
                 >
-                  {Array.isArray(repo.topics)
-                    ? repo.topics
-                        .slice(0, 5)
-                        .map((topic: string, index: number) => (
-                          <Chip
-                            key={index}
-                            label={topic}
-                            color='primary'
-                            size='small'
-                            variant='outlined'
-                          />
-                        ))
-                    : null}
+                  {repo.topics.slice(0, 5).map((topic, index) => (
+                    <Chip
+                      key={index}
+                      label={topic}
+                      color='primary'
+                      size='small'
+                      variant='outlined'
+                    />
+                  ))}
                 </Stack>
               </CardContent>
               <Button
