@@ -1,7 +1,7 @@
 'use client';
 
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import {
   Container,
   Grid,
@@ -14,9 +14,12 @@ import {
   MenuItem,
   SelectChangeEvent,
   CircularProgress,
+  Stack,
+  Chip,
 } from '@mui/material';
 
 type Repository = {
+  topics: ReactNode;
   id: number;
   full_name: string;
   html_url: string;
@@ -40,7 +43,10 @@ const Home = () => {
     'Ruby',
     'TypeScript',
     'C++',
+    'Vue',
   ]);
+
+  console.log('repositories', repositories);
 
   const fetchRepositories = async (
     page: number,
@@ -133,7 +139,8 @@ const Home = () => {
           <Grid item xs={12} sm={6} md={4} key={repo.id}>
             <Card
               style={{
-                height: '200px',
+                height: '100%',
+                minHeight: '200px',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
@@ -149,6 +156,27 @@ const Home = () => {
                 <Typography>
                   Stars: {repo.stargazers_count} | Forks: {repo.forks_count}
                 </Typography>
+                <Stack
+                  direction='row'
+                  alignItems='flex-start'
+                  flexWrap='wrap'
+                  spacing={1}
+                  gap={1}
+                >
+                  {Array.isArray(repo.topics)
+                    ? repo.topics
+                        .slice(0, 5)
+                        .map((topic: string, index: number) => (
+                          <Chip
+                            key={index}
+                            label={topic}
+                            color='primary'
+                            size='small'
+                            variant='outlined'
+                          />
+                        ))
+                    : null}
+                </Stack>
               </CardContent>
               <Button
                 variant='contained'
